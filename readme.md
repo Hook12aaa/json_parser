@@ -68,6 +68,33 @@ print(result.get_errors())  # Shows missing closing brace position
 - Optimized string parsing
 - Minimal memory footprint
 
+## Testing
+
+Run the test suite using pytest:
+
+```bash
+pytest test_json_fixer.py
+```
+
+Example test cases:
+
+```python
+# Basic JSON repairs
+def test_basic_json_repairs(json_fixer):
+    assert json_fixer.repair_json('{key: value}') == {"key": "value"}
+    assert json_fixer.repair_json('{"key": value}') == {"key": "value"}
+
+# Array parsing
+def test_array_parsing(json_fixer):
+    cases = [
+        ('[1,2,3]', '[1,2,3]'),
+        ('[test, 2, three]', '["test",2,"three"]')
+    ]
+    for input_json, expected in cases:
+        result = json_fixer.load_json(input_json)
+        assert result.fixed == expected
+```
+
 ## Contributing
 
 Contributions are welcome! Feel free to:
